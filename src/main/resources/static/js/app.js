@@ -1,11 +1,17 @@
 var stompClient = null;
 const chatData = [];
-var message;
+var chatMessages;
+var messageInput;
+var chatID;
+var userID;
 
 addEventListener("DOMContentLoaded", (event) => { connect()});
 
 function connect() {
-    message = document.getElementById("message");
+    messageInput = document.getElementById("message");
+    chatMessages = $("#chat-messages");
+    chatID =  document.getElementById("chatId").value;
+    userID =  document.getElementById("userId").value;
     let socket = new SockJS('http://localhost:8080/chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, (frame) => connectCallback(frame));
@@ -13,7 +19,7 @@ function connect() {
 
 function connectCallback(frame){
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/user/topic/messages', onServerMessage);
+    stompClient.subscribe('/topic/chat/' + chatID, onServerMessage);
 }
 
 const onServerMessage = (payload) => {
@@ -23,18 +29,22 @@ const onServerMessage = (payload) => {
     newMessage(payloadData);
 }
 
-const newMessage = (message)=>{
-    alert(message);
+const newMessage = (msg)=>{
+    console.log(msg);
+    chatMessages.append(messageBox(msg.body.text));
+    // $("chat-messages").append(messageBox(msg.body.text))
+
 }
 
 const sendValue = () => {
-    if (message.value == "") return;
+    if (messageInput.value == "") return;
     if (stompClient) {
         let chatMessage = {
-            senderId: 1,
-            text: message.value
+            chatID : chatID,
+            senderId: userID,
+            text: messageInput.value
         };
-        message.value = "";
-        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+        messageInput.value = "";
+        stompClient.send("/app/chat/" + chatID, {}, JSON.stringify(chatMessage));
     }
 }

@@ -1,5 +1,6 @@
 package com.gigachatmvc.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -9,12 +10,11 @@ import java.sql.Timestamp;
 
 @Entity(name = "messages")
 @Table(name = "messages")
-@ToString
-@Getter
+@Data
 @NoArgsConstructor
 public class MessageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String senderId;
     private int chatId;
@@ -25,5 +25,6 @@ public class MessageEntity {
         this.chatId = chatId;
         this.senderId = senderId;
         this.text = text;
+
     }
 }

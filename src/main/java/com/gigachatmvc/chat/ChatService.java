@@ -10,8 +10,11 @@ import com.gigachatmvc.repos.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatService {
@@ -22,15 +25,11 @@ public class ChatService {
     @Autowired
     MessageRepository messageRepository;
 
-    public ChatEntity connect(String userId, int chatId){
-        var chatEntity = chatRepository.findById(chatId);
-        if (chatEntity.isEmpty())
-            return chatRepository.save(new ChatEntity(userId));
-
-        if (chatEntity.get().getStatusId() == chatStatusesRepository.findFirstByName("CLOSED"))
-            return chatRepository.save(new ChatEntity(userId));
-
-        return chatEntity.get();
+    public ChatEntity connect(String userId){
+        var chats = chatRepository.findAllByUserId(userId);
+        Optional<ChatEntity> chatEntity = chats.stream().filter(x->x.getStatusId() == 1).findFirst();
+        return chatRepository.save(
+                chatEntity.orElseGet(()->new ChatEntity(userId)));
     }
 
     public List<ChatEntity> fetchChats(String userId){
@@ -50,8 +49,12 @@ public class ChatService {
     }
 
     public MessageEntity receiveMessage(MessageForm form){
-        return messageRepository.save(
-                new MessageEntity(form.getChatId(), form.getSenderId(), form.getText()));
+        MessageEntity _new = new MessageEntity();
+        _new.setChatId(form.getChatId());
+        _new.setSenderId(form.getSenderId());
+        _new.setText(form.getText());
+        _new.setCreationDate(Timestamp.valueOf(LocalDateTime.now()));
+        return messageRepository.save(_new);
     }
 
     public void joinChat(String managerId, int chatId) throws ChatNotFoundException{

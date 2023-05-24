@@ -1,6 +1,7 @@
 package com.gigachatmvc.controllers;
 
 import com.gigachatmvc.chat.ChatService;
+import com.gigachatmvc.entities.ChatEntity;
 import com.gigachatmvc.entities.MessageEntity;
 import com.gigachatmvc.forms.MessageForm;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -21,8 +23,7 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
-    @MessageMapping("/chat")
-    @SendToUser("/topic/messages")
+    @MessageMapping("/chat/{id}")
     @CrossOrigin
     public ResponseEntity<MessageEntity> receiveMessage(@RequestBody MessageForm message){
         chatService.receiveMessage(message);
@@ -31,7 +32,10 @@ public class ChatController {
 
     @GetMapping("/messaging")
     String goChat(Model model, KeycloakAuthenticationToken authentication){
-
+        String user = authentication.getName();
+        ChatEntity chatEntity = chatService.connect(user);
+        model.addAttribute("chat_id", chatEntity.getId());
+        model.addAttribute("user_id", user);
         return "chat/chat";
     }
     
