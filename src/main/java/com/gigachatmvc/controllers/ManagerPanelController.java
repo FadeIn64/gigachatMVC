@@ -25,7 +25,6 @@ public class ManagerPanelController {
     }
 
     @GetMapping("transferchat/{chatId}/{topicId}")
-    @PreAuthorize("hasRole('MANAGER')")
     String transferChat(Model model,
                         KeycloakAuthenticationToken authentication,
                         @PathVariable int chatId,

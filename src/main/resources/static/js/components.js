@@ -1,7 +1,10 @@
-const messageBox = (text) =>{
+const messageBox = (message, user) =>{
+
+    let i = userID == message.senderId
+
     return (
-        "<div>\n" +
-        "  <div class=\"chat-user-name\"></div>\n" +
-        "  <div class=\"chat-user-text\">"+text+"</div>\n" +
+        "<div class='message "+ (i?'self':'') +"'>\n" +
+        "  <div class=\"chat-user-name \"></div>\n" +
+        "  <div class=\"chat-user-text \" >"+message.text+"</div>\n" +
         "</div>\n");
 }

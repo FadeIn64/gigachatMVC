@@ -22,9 +22,13 @@
             <div class="chat-content">
                 <ul class="chat-messages">
                     <div class="chatitem"  id="chat-messages">
-                        <div class="chat-user-picture"></div>
-                        <div th:if="${messages.size()>0}" th:each="i : ${messages}">
-                            <div class="chat-user-name"></div>
+                        <div th:class="${(i.getSenderId()==user_id?'self ':'') + 'message'}" th:if="${messages.size()>0}" th:each="i : ${messages}">
+                            <div class="chat-user-name" th:if="${i.getSenderId().equals(client_id) && isManager}" th:utext="${'клиент'}"></div>
+                            <div class="chat-user-name" th:if="${!i.getSenderId().equals(client_id) && isManager}" th:utext="${'мэнеджер'}"></div>
+                            <div class="chat-user-name" th:if="${i.getSenderId().equals(user_id) && !isManager}" th:utext="${user_name}"></div>
+                            <div class="chat-user-name" th:if="${i.getSenderId().equals(client_id) && !isManager}" th:utext="${'мэнэджер'}"></div>
+                            <br>
+                            <div class="chat-user-name" th:if="${!client_id.equals(user_id)}" th:utext="${'Мэнэджер'}"></div>
                             <div class="chat-user-text" th:utext="${i.getText()}"></div>
                         </div>
                     </div>
@@ -34,10 +38,20 @@
                     <button type="button" class="send-button" onclick="sendValue()">send</button>
                 </div>
             </div>
-        </div>
-        <div th:if="${isManager}" id="manager-panel">
-            <a th:href="@{/manage/close/{chatId}(chatId = ${chat_id})}">Закрыть чат</a>
-            <a th:href="@{/manage/transferchat/{chatId}/2 (chatId = ${chat_id})}">Перенаправить на 2</a>
+            <div class="block" th:if="${isManager}" id="manager-panel">
+                <div class="btn-block">
+                    <a th:href="@{/manage/close/{chatId}(chatId = ${chat_id})}">Закрыть чат</a>
+                </div>
+                <div class="btn-block">
+                    <a th:if="${topic!=1}" th:href="@{/manage/transferchat/{chatId}/1 (chatId = ${chat_id})}">Перенаправить на Общий</a>
+                </div>
+                <div class="btn-block">
+                    <a th:if="${topic!=2}" th:href="@{/manage/transferchat/{chatId}/2 (chatId = ${chat_id})}">Перенаправить на Депозит</a>
+                </div>
+                <div class="btn-block">
+                    <a th:if="${topic!=3}" th:href="@{/manage/transferchat/{chatId}/3 (chatId = ${chat_id})}">Перенаправить на Кредит</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
