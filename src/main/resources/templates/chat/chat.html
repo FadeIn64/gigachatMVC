@@ -16,9 +16,9 @@
 </head>
 <body>
 <div id="root">
-    <div class="header" th:onclick="logout()">
+    <div class="header">
         <div th:utext="${user_name}"></div>
-        <div>Выйти</div>
+        <div th:onclick="logout()">Выйти</div>
     </div>
     <div class="container">
         <div class="chat-box">
