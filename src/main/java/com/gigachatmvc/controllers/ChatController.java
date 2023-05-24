@@ -37,7 +37,7 @@ public class ChatController {
         String user = authentication.getName();
         List<MessageEntity> messageEntities = chatService.fetchMessages(user);
         ChatEntity chatEntity = chatService.connect(user);
-        modelConfig(model, chatEntity.getId(), user, messageEntities, getUserName(authentication), false);
+        modelConfig(model, chatEntity, user, messageEntities, getUserName(authentication), false);
         return "chat/chat";
     }
 
@@ -48,7 +48,7 @@ public class ChatController {
             String user = authentication.getName();
             ChatEntity chatEntity = chatService.connectManager(user, authentication.getAuthorities());
             List<MessageEntity> messageEntities = chatService.fetchMessages(chatEntity.getId());
-            modelConfig(model, chatEntity.getId(), user, messageEntities, getUserName(authentication), true);
+            modelConfig(model, chatEntity, user, messageEntities, getUserName(authentication), true);
             return "chat/chat";
         }
         catch (Exception ex){
@@ -58,16 +58,18 @@ public class ChatController {
     }
 
     private static void modelConfig(Model model,
-                                    int chatId,
+                                    ChatEntity chat,
                                     String user,
                                     List<MessageEntity> messages,
                                     String userName,
                                     boolean isManager){
-        model.addAttribute("chat_id", chatId);
+        model.addAttribute("chat_id", chat.getId());
         model.addAttribute("user_id", user);
         model.addAttribute("messages", messages);
         model.addAttribute("user_name", userName);
         model.addAttribute("isManager", isManager);
+        model.addAttribute("topic", chat.getTopicId());
+        model.addAttribute("client_id",chat.getUserId());
     }
 
     private static String getUserName(KeycloakAuthenticationToken authentication){

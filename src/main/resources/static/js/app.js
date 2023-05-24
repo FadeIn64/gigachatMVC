@@ -32,7 +32,7 @@ const onServerMessage = (payload) => {
 
 const newMessage = (msg)=>{
     console.log(msg);
-    chatMessages.append(messageBox(msg.body.text));
+    chatMessages.append(messageBox(msg.body, userID));
     // $("chat-messages").append(messageBox(msg.body.text))
 
 }
