@@ -40,7 +40,7 @@ const sendValue = () => {
     if (messageInput.value == "") return;
     if (stompClient) {
         let chatMessage = {
-            chatID : chatID,
+            'chatId' : chatID,
             senderId: userID,
             text: messageInput.value
         };

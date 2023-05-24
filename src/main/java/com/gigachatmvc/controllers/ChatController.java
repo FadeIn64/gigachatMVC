@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Controller
 public class ChatController {
 
@@ -26,16 +28,18 @@ public class ChatController {
     @MessageMapping("/chat/{id}")
     @CrossOrigin
     public ResponseEntity<MessageEntity> receiveMessage(@RequestBody MessageForm message){
-        chatService.receiveMessage(message);
-        return new ResponseEntity<>(new MessageEntity(message.getChatId(), message.getSenderId(), message.getText()), HttpStatus.OK);
+        System.out.println(message);
+        return new ResponseEntity<>( chatService.receiveMessage(message), HttpStatus.OK);
     }
 
     @GetMapping("/messaging")
     String goChat(Model model, KeycloakAuthenticationToken authentication){
         String user = authentication.getName();
+        List<MessageEntity> messageEntities = chatService.fetchMessages(user);
         ChatEntity chatEntity = chatService.connect(user);
         model.addAttribute("chat_id", chatEntity.getId());
         model.addAttribute("user_id", user);
+        model.addAttribute("messages", messageEntities);
         return "chat/chat";
     }
     
