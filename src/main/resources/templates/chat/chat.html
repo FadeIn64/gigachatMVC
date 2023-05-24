@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <head>
+        <title>Hello WebSocket</title>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"rel="stylesheet">
+        <link th:href="@{/main.css}" rel="stylesheet">
+        <link th:href="@{/css/index.css}">
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/sockjs-client/sockjs.min.js}"></script>
+        <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
+        <script th:src="@{/js/app.js}"></script>
+    </head>
+</head>
+<body>
+<div id="root">
+    <div class="container">
+        <div class="chat-box"><div class="chat-content">
+            <ul class="chat-messages" ></ul>
+            <div class="send-message">
+                <input type="text" id = "message" class="input-message" placeholder="enter the message" value="">
+                <button type="button" class="send-button" onclick="sendValue()">send</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
