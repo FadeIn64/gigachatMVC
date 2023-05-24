@@ -1,4 +1,4 @@
-package com.gigachatmvc.entities;
+package com.gigachatmvc.entities.classes;
 
 import lombok.*;
 

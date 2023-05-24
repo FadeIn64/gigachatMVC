@@ -1,9 +1,7 @@
-package com.gigachatmvc.entities;
+package com.gigachatmvc.entities.classes;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

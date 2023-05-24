@@ -1,4 +1,4 @@
-package com.gigachatmvc.entities;
+package com.gigachatmvc.entities.classes;
 
 import lombok.*;
 
@@ -6,14 +6,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity(name="message_statuses")
-@Getter
-@Table(name="message_statuses")
+@Entity(name="chat_statuses")
+@Table(name="chat_statuses")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageStatusEntity {
+public class ChatStatusEntity {
     @Id
+
     private int id;
     private String name;
 }

@@ -14,7 +14,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableJpaRepositories("org")
 @EnableWebSocketMessageBroker
 @EnableWebSocket
-public class    Config  implements WebSocketMessageBrokerConfigurer {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "queue");
@@ -23,7 +23,7 @@ public class    Config  implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat").setAllowedOrigins("http://localhost:3000").withSockJS().setClientLibraryUrl("http:localhost:3000/front/node_modules/sockjs/lib/sockjs.js");
+        registry.addEndpoint("/chat").setAllowedOrigins("http://localhost:3000").withSockJS();
         registry.addEndpoint("/chat").setAllowedOrigins("http://localhost:3000");
     }
 }

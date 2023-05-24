@@ -1,9 +1,9 @@
-var stompClient = null;
-const chatData = [];
-var chatMessages;
-var messageInput;
-var chatID;
-var userID;
+let stompClient = null;
+let chatData = [];
+let chatMessages;
+let messageInput;
+let chatID;
+let userID;
 
 addEventListener("DOMContentLoaded", (event) => { connect()});
 

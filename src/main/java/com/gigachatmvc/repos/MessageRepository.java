@@ -1,6 +1,6 @@
 package com.gigachatmvc.repos;
 
-import com.gigachatmvc.entities.MessageEntity;
+import com.gigachatmvc.entities.classes.MessageEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
