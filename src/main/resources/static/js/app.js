@@ -13,6 +13,7 @@ function connect() {
     chatID =  document.getElementById("chatId").value;
     userID =  document.getElementById("userId").value;
     let socket = new SockJS('http://localhost:8080/chat');
+    if (stompClient) stompClient.disconnect();
     stompClient = Stomp.over(socket);
     stompClient.connect({}, (frame) => connectCallback(frame));
 }

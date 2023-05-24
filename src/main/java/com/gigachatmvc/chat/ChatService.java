@@ -44,6 +44,16 @@ public class ChatService {
         return chat.orElseGet(()->null);
     }
 
+    public ChatEntity transferChat(int chatId, int topicId){
+        var chat = chatRepository.findById(chatId);
+        if (chat.isPresent()){
+            chat.get().setTopicId(topicId);
+            chat.get().setManagerId(null);
+            return chatRepository.save(chat.get());
+        }
+
+        return null;
+    }
 
     public ChatEntity connectManager(String managerId, Collection<GrantedAuthority> managerRoles) throws ChatNotFoundException{
         var openedChat = chatRepository.findFirstByManagerIdAndStatusId(managerId, ChatStatusEnum.OPEN.getId());

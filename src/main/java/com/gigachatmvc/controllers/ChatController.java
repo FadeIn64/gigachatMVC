@@ -57,7 +57,7 @@ public class ChatController {
 //        }
         catch (Exception ex){
             System.out.println(ex.getMessage());
-            return "redirect:/error";
+            return "redirect:/?chatnotfound";
         }
     }
 

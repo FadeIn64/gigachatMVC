@@ -37,6 +37,7 @@
         </div>
         <div th:if="${isManager}" id="manager-panel">
             <a th:href="@{/manage/close/{chatId}(chatId = ${chat_id})}">Закрыть чат</a>
+            <a th:href="@{/manage/transferchat/{chatId}/2 (chatId = ${chat_id})}">Перенаправить на 2</a>
         </div>
     </div>
 </div>
