@@ -49,3 +49,7 @@ const sendValue = () => {
         stompClient.send("/app/chat/" + chatID, {}, JSON.stringify(chatMessage));
     }
 }
+
+const logout = () => {
+    location.replace("http://localhost:8080/logout");
+}

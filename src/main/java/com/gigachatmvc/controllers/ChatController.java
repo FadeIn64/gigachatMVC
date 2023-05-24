@@ -51,10 +51,6 @@ public class ChatController {
             modelConfig(model, chatEntity.getId(), user, messageEntities, getUserName(authentication), true);
             return "chat/chat";
         }
-//        catch (ChatNotFoundException ex){
-//            System.out.println(ex.getMessage());
-//            return "OOPS/CHATNOTFOUND";
-//        }
         catch (Exception ex){
             System.out.println(ex.getMessage());
             return "redirect:/?chatNoFound";
