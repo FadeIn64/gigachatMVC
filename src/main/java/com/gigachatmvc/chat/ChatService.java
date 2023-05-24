@@ -102,4 +102,10 @@ public class ChatService {
         chatObj.setUserId(managerId);
         chatRepository.save(chatObj);
     }
+
+    public ChatEntity close(int id){
+        ChatEntity chatEntity = chatRepository.findById(id).get();
+        chatEntity.setStatusId(2);
+        return chatRepository.save(chatEntity);
+    }
 }
