@@ -2,9 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Привет</title>
+    <title>Hello WebSocket</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"rel="stylesheet">
+    <link th:href="@{/css/index.css}" rel="stylesheet">
 </head>
 <body>
-<a href="/next">Продолжить</a>
+    <h2 class="center-block">Добро пожаловать</h2>
+    <div>
+        <div class="block" th:if="${param.chatNoFound}">
+            <p>К сожалению для тебя нет свободных чатов <br>
+                попробуй зайти когда кому-то понадобится помощь с твоей тематикой страницу через некоторое время
+            </p>
+        </div>
+        <div class="btn-block">
+            <a href="/next">Перейти в чат</a>
+        </div>
+    </div>
+
 </body>
 </html>
