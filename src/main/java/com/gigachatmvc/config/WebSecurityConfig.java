@@ -69,7 +69,7 @@ public class WebSecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/chat**").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
-                .exceptionHandling().accessDeniedPage("/next")
+                .exceptionHandling().accessDeniedPage("/")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/");
     }

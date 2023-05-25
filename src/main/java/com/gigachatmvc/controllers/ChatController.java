@@ -53,11 +53,16 @@ public class ChatController {
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
+            /*
+            * Попытка создать систему подписок незанятых мэнеджеров
+            *
+            * return "redirect:/waiting/" + chatService.getTopic(authentication);
+            * */
             return "redirect:/?chatNoFound";
         }
     }
 
-    private static void modelConfig(Model model,
+    static void modelConfig(Model model,
                                     ChatEntity chat,
                                     String user,
                                     List<MessageEntity> messages,
@@ -72,7 +77,7 @@ public class ChatController {
         model.addAttribute("client_id",chat.getUserId());
     }
 
-    private static String getUserName(KeycloakAuthenticationToken authentication){
+    static String getUserName(KeycloakAuthenticationToken authentication){
         return authentication.getAccount()
                 .getKeycloakSecurityContext()
                 .getIdToken()

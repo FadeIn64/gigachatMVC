@@ -26,13 +26,12 @@
                 <ul class="chat-messages">
                     <div class="chatitem"  id="chat-messages">
                         <div th:class="${(i.getSenderId()==user_id?'self ':'') + 'message'}" th:if="${messages.size()>0}" th:each="i : ${messages}">
-                            <div class="chat-user-name" th:if="${i.getSenderId().equals(client_id) && isManager}" th:utext="${'клиент'}"></div>
-                            <div class="chat-user-name" th:if="${!i.getSenderId().equals(client_id) && isManager}" th:utext="${'мэнеджер'}"></div>
-                            <div class="chat-user-name" th:if="${i.getSenderId().equals(user_id) && !isManager}" th:utext="${user_name}"></div>
-                            <div class="chat-user-name" th:if="${i.getSenderId().equals(client_id) && !isManager}" th:utext="${'мэнэджер'}"></div>
-                            <br>
-                            <div class="chat-user-name" th:if="${!client_id.equals(user_id)}" th:utext="${'Мэнэджер'}"></div>
-                            <div class="chat-user-text" th:utext="${i.getText()}"></div>
+                            <div>
+                                <div class="chat-user-name"></div>
+                            </div>
+                            <div>
+                                <div class="chat-user-text" th:utext="${i.getText()}"></div>
+                            </div>
                         </div>
                     </div>
                 </ul>
@@ -60,5 +59,6 @@
 </div>
 <input type="hidden" id="chatId" th:value="${chat_id}">
 <input type="hidden" id="userId" th:value="${user_id}">
+<input type="hidden" id="clientId" th:value="${client_id}">
 </body>
 </html>

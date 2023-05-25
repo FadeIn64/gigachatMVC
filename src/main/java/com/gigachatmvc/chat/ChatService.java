@@ -1,8 +1,8 @@
 package com.gigachatmvc.chat;
 
+import com.gigachatmvc.controllers.ManagerPanelController;
 import com.gigachatmvc.entities.classes.ChatEntity;
 import com.gigachatmvc.entities.classes.MessageEntity;
-import com.gigachatmvc.entities.classes.TopicEntity;
 import com.gigachatmvc.entities.enums.ChatStatusEnum;
 import com.gigachatmvc.exceptions.ChatNotFoundException;
 import com.gigachatmvc.forms.MessageForm;
@@ -10,7 +10,9 @@ import com.gigachatmvc.repos.ChatRepository;
 import com.gigachatmvc.repos.ChatStatusesRepository;
 import com.gigachatmvc.repos.MessageRepository;
 import com.gigachatmvc.repos.TopicRepository;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +34,18 @@ public class ChatService {
     @Autowired
     TopicRepository topicRepository;
 
+    @Autowired
+    WaitService waitService;
+
+
     public ChatEntity connect(String userId){  // подключение к последнему чату со статусом "открыто"
         var chats = chatRepository.findAllByUserId(userId);
         Optional<ChatEntity> chatEntity = chats.stream().filter(x->x.getStatusId() == 1).findFirst();
-        return chatRepository.save(
-                chatEntity.orElseGet(()->new ChatEntity(userId)));
+        var c = chatRepository.save(
+                chatEntity.orElseGet(()-> new ChatEntity(userId)));
+        if (c.getManagerId() == null && c.getTopicId() == 1)
+            waitService.goWork(0);
+        return c;
     }
 
     public ChatEntity connect(int chatId){  // подключение к конкретному чату
@@ -117,5 +126,17 @@ public class ChatService {
         ChatEntity chatEntity = chatRepository.findById(id).get();
         chatEntity.setStatusId(2);
         return chatRepository.save(chatEntity);
+    }
+
+    public int getTopic(KeycloakAuthenticationToken authentication){
+        var managerRoles = authentication.getAuthorities();
+        var role = managerRoles
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter((item)->item.matches("(.*)_TOPIC_(.*)"))
+                .map((item)->item.split("ROLE_TOPIC_")[1])
+                .findFirst()
+                .get();
+        return topicRepository.findFirstByName(role).getId();
     }
 }

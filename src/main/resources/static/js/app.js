@@ -3,6 +3,7 @@ let chatData = [];
 let chatMessages;
 let messageInput;
 let chatID;
+let clientID;
 let userID;
 
 addEventListener("DOMContentLoaded", (event) => { connect()});
@@ -12,15 +13,19 @@ function connect() {
     chatMessages = $("#chat-messages");
     chatID =  document.getElementById("chatId").value;
     userID =  document.getElementById("userId").value;
+    clientID =  document.getElementById("clientId").value;
     let socket = new SockJS('http://localhost:8080/chat');
     if (stompClient) stompClient.disconnect();
     stompClient = Stomp.over(socket);
     stompClient.connect({}, (frame) => connectCallback(frame));
+
 }
 
 function connectCallback(frame){
     console.log('Connected: ' + frame);
     stompClient.subscribe('/topic/chat/' + chatID, onServerMessage);
+    if(userID == clientID)
+        stompClient.subscribe('/topic/end/' + chatID, ()=>location.reload());
 }
 
 const onServerMessage = (payload) => {

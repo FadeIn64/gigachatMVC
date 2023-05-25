@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Подождите...</title>
+    <title>Hello WebSocket</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/index.css}" rel="stylesheet">
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/sockjs-client/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
+    <script th:src="@{/wait/wait.js}"></script>
+</head>
+<body>
+  <div class="root">
+    <div class="header">
+      <div th:utext="${user_name}"></div>
+      <div th:onclick="logout()">Выйти</div>
+    </div>
+    <div class="center-block">
+      <h3>Подождите пока кому-то не понадобедится помощь</h3>
+      <input type="hidden" id="manager" th:value="${manager}">
+    </div>
+  </div>
+</body>
+</html>
