@@ -1,5 +1,6 @@
 package com.gigachatmvc.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import javax.annotation.security.PermitAll;
 import javax.websocket.server.PathParam;
 
 @Controller
+@Slf4j
 public class IndexController {
     @GetMapping("/")
     @PermitAll
@@ -31,8 +33,9 @@ public class IndexController {
         var role =  grants.stream()
                 .map(GrantedAuthority::getAuthority)
                 .filter(x->x.equals("ROLE_USER")||x.equals("ROLE_MANAGER")).findFirst().orElseGet(()->"USER");
-        if(role.equals("ROLE_USER"))
-            return "redirect:/messaging";
+        if(role.equals("ROLE_USER")){
+            //log.info("Hello", authentication.getAccount().getKeycloakSecurityContext().getIdToken().getPreferredUsername());
+            return "redirect:/messaging";}
         return "redirect:/messaging/manager";
     }
 }
