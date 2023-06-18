@@ -128,6 +128,10 @@ public class ChatService {
         return chatRepository.save(chatEntity);
     }
 
+    public ChatEntity save(ChatEntity chat){
+        return chatRepository.save(chat);
+    }
+
     public int getTopic(KeycloakAuthenticationToken authentication){
         var managerRoles = authentication.getAuthorities();
         var role = managerRoles

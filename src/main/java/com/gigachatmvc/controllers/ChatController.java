@@ -4,6 +4,7 @@ import com.gigachatmvc.chat.ChatService;
 import com.gigachatmvc.entities.classes.ChatEntity;
 import com.gigachatmvc.entities.classes.MessageEntity;
 import com.gigachatmvc.forms.MessageForm;
+import com.gigachatmvc.parameterhandlers.EnableControllerParameterHandler;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Controller
+@EnableControllerParameterHandler
 public class ChatController {
 
     @Autowired
     private ChatService chatService;
 
     @MessageMapping("/chat/{id}")
-    @CrossOrigin
     public ResponseEntity<MessageEntity> receiveMessage(@RequestBody MessageForm message){
-        System.out.println(message);
         return new ResponseEntity<>( chatService.receiveMessage(message), HttpStatus.OK);
     }
 
@@ -54,7 +54,7 @@ public class ChatController {
         catch (Exception ex){
             System.out.println(ex.getMessage());
             /*
-            * Попытка создать систему подписок незанятых мэнеджеров
+            * Попытка сЬоздать систему подписок незанятых мэнеджеров
             *
             * return "redirect:/waiting/" + chatService.getTopic(authentication);
             * */
@@ -63,11 +63,11 @@ public class ChatController {
     }
 
     static void modelConfig(Model model,
-                                    ChatEntity chat,
-                                    String user,
-                                    List<MessageEntity> messages,
-                                    String userName,
-                                    boolean isManager){
+                            ChatEntity chat,
+                            String user,
+                            List<MessageEntity> messages,
+                            String userName,
+                            boolean isManager){
         model.addAttribute("chat_id", chat.getId());
         model.addAttribute("user_id", user);
         model.addAttribute("messages", messages);

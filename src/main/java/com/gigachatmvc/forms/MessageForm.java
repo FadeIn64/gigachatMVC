@@ -1,11 +1,12 @@
 package com.gigachatmvc.forms;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-
-import javax.annotation.sql.DataSourceDefinitions;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MessageForm {
     private String senderId;
     private int chatId;

@@ -18,15 +18,14 @@ public class AuthenticationEvents {
 
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent success) {
+        System.err.println("Hello");
         Authentication a =  success.getAuthentication();
+        var userInfo = userInfoRepository.findById(a.getName());
+        if(userInfo.isPresent()) return;
         if(!(a.getClass() ==  KeycloakAuthenticationToken.class)) return;
 
         var keycloakAuthenticationToken = (KeycloakAuthenticationToken) a;
         IDToken idToken = keycloakAuthenticationToken.getAccount().getKeycloakSecurityContext().getIdToken();
-
-        var userInfo = userInfoRepository.findById(a.getName());
-
-        if(userInfo.isPresent()) return;
 
         UserInfo user = new UserInfo();
         user.setId(a.getName());
